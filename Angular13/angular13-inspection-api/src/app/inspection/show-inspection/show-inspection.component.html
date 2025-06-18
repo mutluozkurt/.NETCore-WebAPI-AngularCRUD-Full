@@ -17,7 +17,7 @@
 
 <div class="mb-2">
   <label for="typeFilter" class="form-label me-2">Inspection Type:</label>
-  <select id="typeFilter" class="form-select d-inline-block w-auto" (change)="filterByType($event.target.value)">
+  <select id="typeFilter" class="form-select d-inline-block w-auto" (change)="filterByType(($event.target as HTMLSelectElement).value)">
     <option value="">All Types</option>
     <option *ngFor="let type of inspectionTypesList$|async" [value]="type.id">{{type.inspectionName}}</option>
   </select>
