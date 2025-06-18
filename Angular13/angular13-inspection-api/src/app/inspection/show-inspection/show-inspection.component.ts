@@ -14,6 +14,8 @@ export class ShowInspectionComponent implements OnInit {
   statusList$!: Observable<any[]>;
   inspectionTypesList:any=[];
 
+  selectedTypeId:string = '';
+
   // Map to display data associate with foreign keys
   inspectionTypesMap:Map<number, string> = new Map()
 
@@ -21,7 +23,6 @@ export class ShowInspectionComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.inspectionList$ = this.service.getInspectionList();
     this.inspectionTypesList$ = this.service.getInspectionTypesList();
     this.statusList$ = this.service.getStatusList();
     this.refreshInspectionTypesMap();
@@ -45,6 +46,9 @@ export class ShowInspectionComponent implements OnInit {
     if(showdeleteError) {
       showdeleteError.style.display = "none";
     }
+
+    // initial load of inspections
+    this.filterByType('');
   }
 
   // Variables (properties)
@@ -76,7 +80,7 @@ export class ShowInspectionComponent implements OnInit {
 
   modalClose() {
     this.activateAddEditInspectionComponent = false;
-    this.inspectionList$ = this.service.getInspectionList();
+    this.filterByType(this.selectedTypeId);
   }
 
   modalAddStatus() {
@@ -193,10 +197,16 @@ export class ShowInspectionComponent implements OnInit {
 
       for(let i = 0; i < data.length; i++)
       {
-        this.inspectionTypesMap.set(this.inspectionTypesList[i].id, 
-          this.inspectionTypesList[i].inspectionName);
+      this.inspectionTypesMap.set(this.inspectionTypesList[i].id,
+        this.inspectionTypesList[i].inspectionName);
       }
     })
   }
+
+  filterByType(typeId:string) {
+    this.selectedTypeId = typeId;
+    this.inspectionList$ = this.service.filterInspectionsByType(typeId);
+  }
+
 
 }

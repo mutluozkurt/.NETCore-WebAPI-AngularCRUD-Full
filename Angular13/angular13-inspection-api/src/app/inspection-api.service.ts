@@ -16,6 +16,14 @@ export class InspectionApiService {
     return this.http.get<any>(this.inspectionAPIUrl + '/Inspections');
   }
 
+  filterInspectionsByType(typeId:number|string|null):Observable<any[]> {
+    let params = '';
+    if(typeId !== null && typeId !== '') {
+      params = `?inspectionTypeId=${typeId}`;
+    }
+    return this.http.get<any>(this.inspectionAPIUrl + `/Inspections/filterByType${params}`);
+  }
+
   addInspection(data:any) {
     return this.http.post(this.inspectionAPIUrl + '/Inspections', data)
   }

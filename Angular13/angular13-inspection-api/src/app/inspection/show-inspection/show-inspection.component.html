@@ -15,6 +15,14 @@
   Show Status
 </button>
 
+<div class="mb-2">
+  <label for="typeFilter" class="form-label me-2">Inspection Type:</label>
+  <select id="typeFilter" class="form-select d-inline-block w-auto" (change)="filterByType($event.target.value)">
+    <option value="">All Types</option>
+    <option *ngFor="let type of inspectionTypesList$|async" [value]="type.id">{{type.inspectionName}}</option>
+  </select>
+</div>
+
 <table class="table table-striped">
   <thead>
     <th>Id</th>
