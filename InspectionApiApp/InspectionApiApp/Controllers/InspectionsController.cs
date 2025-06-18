@@ -43,6 +43,20 @@ namespace InspectionApiApp.Controllers
             return inspection;
         }
 
+        // GET: api/Inspections/filterByType?inspectionTypeId=1
+        [HttpGet("filterByType")]
+        public async Task<ActionResult<IEnumerable<Inspection>>> FilterByType([FromQuery] int? inspectionTypeId)
+        {
+            var query = _context.Inspections.AsQueryable();
+
+            if (inspectionTypeId.HasValue)
+            {
+                query = query.Where(i => i.InspectionTypeId == inspectionTypeId.Value);
+            }
+
+            return await query.ToListAsync();
+        }
+
         // PUT: api/Inspections/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
